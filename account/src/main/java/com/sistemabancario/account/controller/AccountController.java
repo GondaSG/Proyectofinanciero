@@ -56,4 +56,10 @@ public class AccountController {
         return accountService.deleteById(id);
     }
 
+    @GetMapping("/Consultas/{client}")
+    public Flux<Account> findByClient(String client){
+        LOGGER.info("FindByClient" + "OK");
+        return accountService.findByClient(client);
+    }
+
 }

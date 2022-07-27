@@ -1,5 +1,7 @@
 package com.sistemabancario.transactionrecord.service.impl;
 
+import com.sistemabancario.transactionrecord.domain.Account;
+import com.sistemabancario.transactionrecord.domain.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +10,12 @@ import com.sistemabancario.transactionrecord.repository.ITransactionRecordReposi
 import com.sistemabancario.transactionrecord.service.ITransactionRecordService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
+
+import java.util.concurrent.Future;
 
 @Service
 @RequiredArgsConstructor
@@ -26,23 +32,6 @@ public class TransactionRecordService implements ITransactionRecordService {
 
     @Override
     public Mono<TransactionRecord> save(TransactionRecord transactionRecord){
-        // Registrar los depositos y retiros de una cuenta bancaria
-       //return accountRepository.findById(transactionRecord.getAccount().getId())
-       //        .filter(x->x.getAccountType().getCode().equals("1965") ||
-       //                x.getAccountType().getProduct().getId().equals(1))
-       //        .flatMap(transac -> {
-       //            return transactionRecordRepository.save(transactionRecord);
-       //        }).switchIfEmpty(Mono.empty());
-               //transactionRecordRepository.findById("1")
-                 //       .filter(x -> x.getAccount().getAccountType().equals("1976"));
-                //.flatMap(transac -> {
-                //    return transactionRecordRepository.save(transactionRecord);})
-                //.switchIfEmpty(Mono.empty());
-
-        //transactionRecord.getAccount().getAccountType().equals("1965");
-        //if(transactionRecord.getAccount().getAccountType().getId() == "1945"){
-        //    return transactionRecordRepository.save(transactionRecord);
-        //}else{ throw new Exception("Depositos ");}
         return transactionRecordRepository.save(transactionRecord);
     }
 
@@ -53,14 +42,12 @@ public class TransactionRecordService implements ITransactionRecordService {
     @Override
     public Mono<Void> deleteById(String id) {return transactionRecordRepository.deleteById(id);}
 
-    public void ValidarSaldo(TransactionRecord transactionRecord){
-        //Valida que el monto que se registra en la transaccion sea menor al saldo
-        //return accountRepository.findById(transactionRecord.getAccount().getId())
-          //      .filter(x-> transactionRecord.getAmount()> x.getSaldo());
-                //accountRepository.findById(id)
-                //.flatMap(x -> {
-                //    return x.getSaldo();
-                //});
-
+    @Override
+    public Flux<TransactionRecord> findByDocument(String document) {
+        RestTemplate temp=new RestTemplate();
+        Client client = temp.getForObject("http://localhost:8030/client/Consultas/" + document, Client.class);
+        Account account=temp.getForObject("http://localhost:8010/account/Consultas/" + client.getId(),Account.class);
+        return transactionRecordRepository.findAll()
+                .filter(x->x.getAccountId().equals(account.getId()));
     }
 }

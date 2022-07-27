@@ -3,6 +3,7 @@ package com.sistemabancario.account.service;
 import com.sistemabancario.account.domain.Account;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.GroupedFlux;
 import reactor.core.publisher.Mono;
 
 public interface IAccountService {
@@ -15,4 +16,10 @@ public interface IAccountService {
     Mono<Account> update(Account account);
 
     public Mono<Void> deleteById(String id);
+
+    Flux<Account> findByClient(String client);
+
+    Flux<GroupedFlux<Long, Account>> reportByClient(String document);
+
+    Double viewCredit(String id);
 }

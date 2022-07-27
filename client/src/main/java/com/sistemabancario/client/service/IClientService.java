@@ -15,4 +15,6 @@ public interface IClientService {
     Mono<Client> update(Client client);
 
     Mono<Void> deleteById(String id);
+
+    Flux<Client> findByDocument(String document);
 }

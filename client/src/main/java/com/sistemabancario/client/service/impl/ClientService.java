@@ -41,4 +41,9 @@ public class ClientService implements IClientService {
     public Mono<Void> deleteById(String id) {
         return clientRepository.deleteById(id);
     }
+
+    @Override
+    public Flux<Client> findByDocument(String document) {
+        return clientRepository.findAll().filter(x->x.getDocumentNumber().equals(document));
+    }
 }

@@ -16,4 +16,6 @@ public interface ITransactionRecordService {
     Mono<TransactionRecord> update(TransactionRecord transactionRecord);
 
     public Mono<Void> deleteById(String id);
+
+    public Flux<TransactionRecord> findByDocument(String document);
 }

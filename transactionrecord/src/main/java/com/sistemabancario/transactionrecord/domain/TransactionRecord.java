@@ -1,13 +1,17 @@
 package com.sistemabancario.transactionrecord.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Document("transactionrecord")
 public class TransactionRecord{
 	@Id
