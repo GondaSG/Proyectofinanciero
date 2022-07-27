@@ -47,4 +47,7 @@ public class ClientController {
     public Mono<Void> deleteById(@PathVariable("id") String id){
         return iClientService.deleteById(id);
     }
+    
+    @GetMapping("/Consultas/{document}")
+    public Flux<Client> findByDocument(@PathVariable("document")String document){return iClientService.findByDocument(document);}
 }

@@ -1,9 +1,12 @@
 package com.sistemabancario.transactionrecord.controller;
 
 import java.lang.invoke.MethodHandles;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/transactionrecord")
 public class TransactionRecordController {
 
+    @Autowired
     private ITransactionRecordService transactionRecordService;
 
     private static final Logger LOGGER= LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -40,10 +44,12 @@ public class TransactionRecordController {
         LOGGER.info("getById" + "OK");
         return transactionRecordService.findById(id);
     }
-
+    SimpleDateFormat format=new SimpleDateFormat();
+    Date date = new Date(System.currentTimeMillis());
     @PostMapping
     public Mono<TransactionRecord> create(@RequestBody TransactionRecord transactionRecord){
-
+        transactionRecordService.findAll()
+                .filter(x-> x.getPayDate().before(date));
         LOGGER.info("create" + "OK");
         return transactionRecordService.save(transactionRecord);
     }
@@ -57,5 +63,11 @@ public class TransactionRecordController {
     public Mono<Void> deleteById(@PathVariable("id") String id){
         LOGGER.info("deleteById" + "OK");
         return transactionRecordService.deleteById(id);
+    }
+
+    @GetMapping("/Reporte/{document}")
+    public Flux<TransactionRecord> findByDocument(@PathVariable("document") String document){
+        LOGGER.info("findByDocument" + "OK");
+        return transactionRecordService.findByDocument(document);
     }
 }
