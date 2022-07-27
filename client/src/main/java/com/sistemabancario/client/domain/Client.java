@@ -18,4 +18,8 @@ public class Client{
 	private String businessName;
 	private String clientTypeId;
 	private String documentTypeId;
+
+	public Object getTipo() {
+		return null;
+	}
 }
