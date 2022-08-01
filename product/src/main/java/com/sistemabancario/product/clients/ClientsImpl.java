@@ -1,5 +1,4 @@
 package com.sistemabancario.product.clients;
-import ch.qos.logback.core.net.server.Client;
 import com.sistemabancario.product.clients.model.Cliente;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,7 +10,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class ClientsImpl implements IClients {
     @Override
-    public Flux<Client> getClientByTipNum(String tipo, String doc) {
+    public Flux<Cliente> getClientByTipNum(String tipo, String doc) {
         WebClient webClient = WebClient.create("http://localhost:8084");
         Cliente client = new Cliente();
         client.setTipoDocumento(tipo);
