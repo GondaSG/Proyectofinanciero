@@ -1,4 +1,4 @@
-package com.sistemabancario.transactionrecord.service.impl;
+package com.sistemabancario.transactionrecord.service;
 
 import com.sistemabancario.transactionrecord.domain.Account;
 import com.sistemabancario.transactionrecord.domain.Client;

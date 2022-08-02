@@ -1,10 +1,11 @@
-package com.sistemabancario.client;
+package com.sistemabancario.accountype.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ClientApplicationTests {
+class AccountypeApplicationTests {
+
 
 
 }

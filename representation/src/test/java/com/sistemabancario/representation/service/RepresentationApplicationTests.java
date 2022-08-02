@@ -1,4 +1,4 @@
-package com.sistemabancario.representation;
+package com.sistemabancario.representation.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
