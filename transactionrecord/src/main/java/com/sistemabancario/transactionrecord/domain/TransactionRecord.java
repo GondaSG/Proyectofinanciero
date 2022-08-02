@@ -21,4 +21,5 @@ public class TransactionRecord{
 	private Double amount;
 	private Integer share;
 	private Date payDate;
+	private String email;
 }
