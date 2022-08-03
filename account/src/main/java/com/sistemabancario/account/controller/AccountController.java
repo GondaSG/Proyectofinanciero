@@ -45,10 +45,10 @@ public class AccountController {
         return accountService.save(account);
     }
 
-    @PutMapping
-    public Mono<Account> update(@RequestBody Account account){
+    @PutMapping("/{id}")
+    public Mono<Account> update(@PathVariable("id") String id,@RequestBody Account account){
         LOGGER.info("update" + "OK");
-        return accountService.update(account);
+        return accountService.update(id, account);
     }
     @DeleteMapping
     public Mono<Void> deleteById(@PathVariable("id") String id){

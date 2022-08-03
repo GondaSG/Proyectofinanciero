@@ -13,7 +13,7 @@ public interface IAccountService {
 
     Mono<Account> save(Account account);
 
-    Mono<Account> update(Account account);
+    Mono<Account> update(String id,Account account);
 
     public Mono<Void> deleteById(String id);
 
