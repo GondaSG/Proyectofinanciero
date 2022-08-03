@@ -4,6 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.sistemabancario.transactionrecord.service.impl.TransactionEventsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class TransactionRecordController {
     @Autowired
     private ITransactionRecordService transactionRecordService;
 
+    private  TransactionEventsService transactionEventsService;
     private static final Logger LOGGER= LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @GetMapping
@@ -44,12 +46,9 @@ public class TransactionRecordController {
         LOGGER.info("getById" + "OK");
         return transactionRecordService.findById(id);
     }
-    SimpleDateFormat format=new SimpleDateFormat();
-    Date date = new Date(System.currentTimeMillis());
+
     @PostMapping
     public Mono<TransactionRecord> create(@RequestBody TransactionRecord transactionRecord){
-        transactionRecordService.findAll()
-                .filter(x-> x.getPayDate().before(date));
         LOGGER.info("create" + "OK");
         return transactionRecordService.save(transactionRecord);
     }

@@ -1,8 +1,9 @@
-package com.sistemabancario.transactionrecord.service;
+package com.sistemabancario.transactionrecord.service.impl;
 
 import com.sistemabancario.transactionrecord.domain.Account;
 import com.sistemabancario.transactionrecord.domain.Client;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.sistemabancario.transactionrecord.domain.TransactionRecord;
@@ -15,6 +16,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Future;
 
 @Service
@@ -23,6 +26,10 @@ public class TransactionRecordService implements ITransactionRecordService {
 
     @Autowired
     private final ITransactionRecordRepository transactionRecordRepository;
+
+    private final TransactionEventsService transactionEventsService;
+
+    private KafkaTemplate<String, TransactionRecord> kafkaTemplate;
     //private final IAccountRepository accountRepository;
     @Override
     public Flux<TransactionRecord> findAll() {return transactionRecordRepository.findAll();}
@@ -30,9 +37,16 @@ public class TransactionRecordService implements ITransactionRecordService {
     @Override
     public Mono<TransactionRecord> findById(String id) {return transactionRecordRepository.findById(id);}
 
+    SimpleDateFormat format=new SimpleDateFormat();
+    Date date = new Date(System.currentTimeMillis());
     @Override
     public Mono<TransactionRecord> save(TransactionRecord transactionRecord){
+        transactionRecordRepository.findAll()
+                .filter(x-> x.getPayDate().before(date));
+        //transactionCreatedEvent(transactionRecord);
+        transactionEventsService.publish(transactionRecord);
         return transactionRecordRepository.save(transactionRecord);
+
     }
 
     @Override
@@ -50,4 +64,8 @@ public class TransactionRecordService implements ITransactionRecordService {
         return transactionRecordRepository.findAll()
                 .filter(x->x.getAccountId().equals(account.getId()));
     }
+
+    //private void transactionCreatedEvent(TransactionRecord transactionRecord) {
+      //  kafkaTemplate.send("transactionRecord", transactionRecord.getId() + "created", transactionRecord);
+    //}
 }

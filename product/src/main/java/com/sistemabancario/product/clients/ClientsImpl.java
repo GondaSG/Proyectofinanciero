@@ -16,12 +16,12 @@ public class ClientsImpl implements IClients {
         client.setTipoDocumento(tipo);
         client.setNumeroDocumento(doc);
 
-        Flux<Client> cliente = webClient.post()
+        Flux<Cliente> cliente = webClient.post()
                 .uri("/cliente/getClientByDocument/")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .body(Mono.just(client), Client.class)
+                .body(Mono.just(client), Cliente.class)
                 .retrieve()
-                .bodyToFlux(Client.class);
+                .bodyToFlux(Cliente.class);
         System.out.println("cliente : " + cliente.toString());
 
         return cliente;
