@@ -7,8 +7,8 @@ import reactor.core.publisher.Mono;
 
 public interface IDocumentTypeService {
 
-	Flux<DocumentType> findAll();
-	
+    abstract Flux<DocumentType> findAll();
+
 	Mono<DocumentType> findById(String id);
 
     Mono<DocumentType> save(DocumentType documentType);

@@ -1,10 +1,10 @@
-package com.sistemabancario.transactionrecord.service.impl;
+package com.sistemabancario.transactionrecord.service;
 
 import com.sistemabancario.transactionrecord.domain.TransactionRecord;
 import com.sistemabancario.transactionrecord.repository.ITransactionRecordRepository;
+import com.sistemabancario.transactionrecord.service.impl.TransactionRecordService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
